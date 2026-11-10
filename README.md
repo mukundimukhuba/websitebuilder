@@ -19,3 +19,7 @@ Open `http://localhost:5173/studio`.
 npm test
 npm run build
 ```
+
+## Deploy (Vercel)
+
+See [`docs/SWAGSTACK.md`](docs/SWAGSTACK.md#deploy-vercel). Import this GitHub repo in the Vercel dashboard (Vite, root `.`, env from `.env.example`), then open `/studio` on the production URL. CLI `vercel --prod` works only when logged in or `VERCEL_TOKEN` is set.

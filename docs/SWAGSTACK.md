@@ -98,11 +98,44 @@ where email = 'you@example.com';
 
 ## Deploy (Vercel)
 
-1. Import this repo in Vercel (`npm run build`, output `dist`).
-2. Apply `supabase/swagstack_schema.sql`.
-3. Set env vars in the Vercel project.
-4. Confirm `/api/swagstack-payments` is deployed (listed in `vercel.json`).
-5. Smoke-test `/studio`, sign-up, create site, publish, open `/s/:slug`.
+Studio must stay on the `/studio` path (and published sites on `/s/:slug`). Bare `/` redirects to `/studio`.
+
+### Dashboard import (required when CLI has no token)
+
+Agent/CLI deploy needs a logged-in Vercel account or `VERCEL_TOKEN`. Without that, do this once in the browser:
+
+1. Open [https://vercel.com/new](https://vercel.com/new)
+2. **Import Git Repository** → choose `mukundimukhuba8-jpg/custom-your-site`  
+   (authorize the Vercel GitHub app for that org/user if prompted)
+3. Project settings:
+   - **Framework Preset:** Vite
+   - **Root Directory:** `.` (repo root — leave blank / default)
+   - **Build Command:** `npm run build` (from `vercel.json`)
+   - **Output Directory:** `dist`
+4. **Environment Variables** — add from [`.env.example`](../.env.example) for Production + Preview:
+
+   | Name | Required now? |
+   | --- | --- |
+   | `VITE_SUPABASE_URL` | Yes for real auth/data |
+   | `VITE_SUPABASE_ANON_KEY` | Yes for real auth/data |
+   | `VITE_PAYFAST_*` / `PAYFAST_*` / `VITE_STRIPE_*` / `STRIPE_*` | Only when enabling live checkout |
+
+5. Deploy. Prefer Production Branch `main` after merging PR #1, or use the Git integration preview for branch `cursor/swagstack-studio-port-a43a`.
+6. After deploy, open `https://YOUR-PROJECT.vercel.app/studio` (keep `/studio`).
+
+### CLI (when authenticated)
+
+```bash
+# one-time: vercel login   OR   export VERCEL_TOKEN=...
+npx vercel link --yes
+npx vercel --prod
+```
+
+### After first deploy
+
+1. Apply `supabase/swagstack_schema.sql` in the Supabase SQL editor (Email auth on).
+2. Confirm `/api/swagstack-payments` responds (listed in `vercel.json`; returns `requires_configuration` until payment secrets exist).
+3. Smoke-test `/studio` → sign-up → create site (Laptop/Phone) → publish → `/s/:slug`.
 
 ## Design references
 
