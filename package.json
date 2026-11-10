@@ -1,0 +1,24 @@
+{
+  "name": "swagstack-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "SwagStack Studio — multi-tenant website customizer SaaS",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:pages": "VITE_BASE=/custom-your-site/ vite build && node scripts/pages-spa.mjs",
+    "preview": "vite preview",
+    "test": "node --test src/swagstack/lib/*.test.js",
+    "test:swagstack": "node --test src/swagstack/lib/*.test.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "^6.3.5"
+  }
+}
